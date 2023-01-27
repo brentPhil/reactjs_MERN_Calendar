@@ -1,9 +1,10 @@
-import Calendar2 from "./components_v2/calendar"
+import Calendar from "./model/calendar"
+
 
 function App() {
   return (
-    <div className="App">
-      <Calendar2 />
+    <div className="App bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
+      <Calendar />
     </div>
   )
 }

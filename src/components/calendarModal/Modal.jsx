@@ -2,9 +2,9 @@ import { motion } from "framer-motion"
 import { useState } from "react"
 import Backdrop from "../backDrop/backDrop"
 import { BsCalendar4Week } from "react-icons/bs"
-import ColorPicker from "../colorPicker"
-import TimePicker from "../timePicker"
 import moment from "moment/moment"
+import ColorPicker from "../modalComp/colorPicker"
+import TimePicker from "../modalComp/timePicker"
 
 const dropIn = {
   hidden: {

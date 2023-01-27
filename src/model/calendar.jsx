@@ -1,156 +1,76 @@
-import React, { useState, useEffect } from 'react';
-import moment from 'moment';
-import Modal from '../components/calendarModal/Modal';
-import { AnimatePresence } from 'framer-motion';
-import { IoChevronBackOutline, IoChevronForwardOutline } from "react-icons/io5"
+import moment from "moment/moment"
+import React, { useEffect, useState } from "react"
+import Modal from "../components/calendarModal/Modal"
+import { AnimatePresence } from "framer-motion"
+import Day from "../components/calendar/day"
+import HeaderCalendar from "../components/calendar/header"
+import { useDate } from "../components/calendar/useDate"
+import EventsList from "../components/calendarEvent/event"
 
+const days_class = `text-center py-2 px-3 bg-slate-200 text-gray-800 font-semibold rounded-[5px]`
 
 const Calendar = () => {
-  const [date, setDate] = useState(moment());
-  const [days, setDays] = useState([]);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(moment());
-  const [events, setEvents] = useState(
-    JSON.parse(localStorage.getItem("events"))
-  )
+  const [nav, setNav] = useState(0)
+  const [modalOpen, setModalOpen] = useState(false)
+  const [selectedDate, setSelectedDate] = useState(moment())
+  const [events, setEvents] = useState([])
 
-  const current_day = moment().format("YYYY-MM-DD"); 
-
-  const closeModal = () => setModalOpen(false);
-  const openModal = () => setModalOpen(true);
-
-  const handlePreviousMonth = () => {
-    setDate(date.subtract(1, 'months'));
-    setDays([]);
-  };
-
-  const handleNextMonth = () => {
-    setDate(date.add(1, 'months'));
-    setDays([]);
-  };
-
-  if (days.length === 0) {
-    const firstDayOfMonth = date.startOf('month');
-    const lastDayOfMonth = date.endOf('month');
-    const numberOfDaysInMonth = lastDayOfMonth.date();
-
-    let blankDays = firstDayOfMonth.day();
-    if (blankDays === 0) {
-      blankDays = 7;
+  useEffect(() => {
+    // Get the events data from local storage
+    const eventsData = JSON.parse(localStorage.getItem("events"))
+    if (eventsData) {
+      setEvents(eventsData)
     }
-
-    const lastMonth = moment().subtract(1, 'month');
-
-    const lastMonthDays = lastMonth.daysInMonth();
-    for (let i = lastMonthDays - blankDays + 2; i <= lastMonthDays; i++) {
-      days.push(
-        <div
-          key={i}
-          className="text-start md:h-20 py-2 px-3 rounded-md bg-gray-300 text-gray-500">
-          {i}
-        </div>
-      )
-    }
-
-    const groupedEvents = events.reduce((acc, event) => {
-      const day = moment(event.eventDate).format("YYYY-MM-DD")
-      if (!acc[day]) {
-        acc[day] = []
+    // Listen for changes in the local storage
+    window.addEventListener("storage", (e) => {
+      if (e.key === "events") {
+        setEvents(JSON.parse(e.newValue))
       }
-      acc[day].push(event)
-      return acc
-    }, {})
+    })
+  }, [])
 
-    for (let i = 1; i <= numberOfDaysInMonth; i++) {
-      const currentDay = moment().date(i).month(date.month()).year(date.year());
-      const className = `text-start sm:h-20 py-2 px-3 rounded-md hover:bg-red-200 ${
-        current_day === currentDay.format("YYYY-MM-DD")
-          ? "bg-red-400 text-white"
-          : currentDay.format("YYYY-MM-DD") > current_day
-          ? "bg-red-50"
-          : "bg-slate-100"
-      }`
+  const closeModal = () => setModalOpen(false)
+  const openModal = () => setModalOpen(true)
 
-      const dayEvents = groupedEvents[currentDay.format("YYYY-MM-DD")] || []
-      const numEvents = dayEvents.length
-      
-      days.push(
-        <div
-          key={`${currentDay.format("MM-YYYY")}-${i}`}
-          className={className}
-          onClick={() => handleDayClick(currentDay)}>
-          <div className="mb-2">{i}</div>
-          {numEvents > 0 && <div>{numEvents} events</div>}
-          {dayEvents.slice(0, 1).map((event, index) => (
-            <div
-              key={index}
-              className="bg-yellow-200 text-[12px] text-zinc-700 pl-1 border-l-4 border-yellow-500">
-              {event.eventName}
-            </div>
-          ))}
-        </div>
-      )
-    }
-
-    const handleDayClick = (date) => {
-      if (date.format("YYYY-MM-DD") > current_day) {
-        modalOpen ? closeModal() : openModal()
-        setSelectedDate(date)
-      }
-    }
-  }
+  const { days, dateDisplay } = useDate(events, nav)
 
   return (
-    <div className="px-5 font-mono">
-      <div className="relative bg-white rounded-lg md:w-5/6 max-w-5xl lg:w-4/5 m-auto my-10 sm:w-100 min-w-[400px] shadow-lg">
-        <div className="flex justify-between items-center p-5 rounded-t-md rounded-b-xl bg-red-500 text-white">
-          <div>
-            <div className="text-xl font-bold">Event Calendar</div>
-            <div className="text-sm text-slate-50">
-              {date.format("MMMM YYYY")}
-            </div>
-          </div>
-          <div className="flex w-fit gap-2">
-            <button
-              className="text-white text-md rounded-full hover:bg-white/60 p-2 bg-white/30"
-              onClick={handlePreviousMonth}>
-              <IoChevronBackOutline />
-            </button>
-
-            <button
-              className="text-white text-md rounded-full hover:bg-white/60 p-2 bg-white/30"
-              onClick={handleNextMonth}>
-              <IoChevronForwardOutline />
-            </button>
-          </div>
-        </div>
+    <div className="px-20 h-screen py-10 font-mono grid lg:grid-cols-4 sm:grid-cols-1 gap-4">
+      <div className="relative bg-white col-span-3 border rounded-lg max-w-5xl sm:w-100 min-w-[400px] shadow-lg">
+        <HeaderCalendar
+          dateDisplay={dateDisplay}
+          onNext={() => setNav(nav + 1)}
+          onBack={() => setNav(nav - 1)}
+        />
         <div className="p-5">
           <div className="grid grid-cols-7 gap-3">
-            <div className="text-center py-2 px-3 bg-red-500 text-slate-100 font-semibold rounded-md">
-              Sun
-            </div>
-            <div className="text-center py-2 px-3 bg-red-500 text-slate-100 font-semibold rounded-md">
-              Mon
-            </div>
-            <div className="text-center py-2 px-3 bg-red-500 text-slate-100 font-semibold rounded-md">
-              Tue
-            </div>
-            <div className="text-center py-2 px-3 bg-red-500 text-slate-100 font-semibold rounded-md">
-              Wed
-            </div>
-            <div className="text-center py-2 px-3 bg-red-500 text-slate-100 font-semibold rounded-md">
-              Thu
-            </div>
-            <div className="text-center py-2 px-3 bg-red-500 text-slate-100 font-semibold rounded-md">
-              Fri
-            </div>
-            <div className="text-center py-2 px-3 bg-red-500 text-slate-100 font-semibold rounded-md">
-              Sat
-            </div>
+            <div className={days_class}>Sun</div>
+            <div className={days_class}>Mon</div>
+            <div className={days_class}>Tue</div>
+            <div className={days_class}>Wed</div>
+            <div className={days_class}>Thu</div>
+            <div className={days_class}>Fri</div>
+            <div className={days_class}>Sat</div>
           </div>
-          <div className="grid grid-cols-7 gap-3 pt-3">{days}</div>
+
+          <div className="grid grid-cols-7 gap-3 pt-3">
+            {days.map((d, index) => (
+              <Day
+                key={index}
+                day={d}
+                onClick={() => {
+                  if (moment(d.date).isAfter(moment())) {
+                    modalOpen ? closeModal() : openModal()
+                    setSelectedDate(d.date)
+                  }
+                }}
+              />
+            ))}
+          </div>
         </div>
       </div>
+      <EventsList />
+
       <AnimatePresence initial={false} mode="wait" onExitComplete={() => null}>
         {modalOpen && (
           <Modal
@@ -162,7 +82,6 @@ const Calendar = () => {
       </AnimatePresence>
     </div>
   )
-  };
-  
-  export default Calendar;
-  
+}
+
+export default Calendar

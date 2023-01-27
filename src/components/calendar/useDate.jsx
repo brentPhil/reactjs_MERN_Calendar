@@ -7,18 +7,25 @@ export const useDate = (events, nav) => {
 
   useEffect(() => {
     const eventForDate = (date) => {
-    try {
-      return events.find(
-        (e) =>
-          moment(date).isSame(moment(e.dateSelected)) &&
-          moment(e.dateSelected).isAfter(moment())
-      )
-    } catch (error) {
-      console.log("No events data found in local storage.")
-      // You can also return a default value or throw an error here.
+      try {
+        return events.find(
+          (e) =>
+            moment(date).isSame(moment(e.dateSelected)) &&
+            moment(e.dateSelected).isAfter(moment())
+        )
+      } catch (error) {
+        console.log("No events data found in local storage.")
+      }
     }
-  }
-    const weekdays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday",]
+    const weekdays = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ]
     let dt = moment()
 
     if (nav !== 0) {
@@ -32,15 +39,6 @@ export const useDate = (events, nav) => {
     const daysInMonth = moment(firstDayOfMonth).endOf("month").date()
     const dateString = firstDayOfMonth.format("dddd, MMMM DD YYYY")
 
-    // const groupedEvents = events.reduce((acc, event) => {
-    //   const day = moment(event.eventDate).format("YYYY-MM-DD")
-    //   if (!acc[day]) {
-    //     acc[day] = []
-    //   }
-    //   acc[day].push(event)
-    //   return acc
-    // }, {})
-
     setDateDisplay(dt.format("MMMM YYYY"))
     const paddingDays = weekdays.indexOf(dateString.split(", ")[0])
 
@@ -53,24 +51,13 @@ export const useDate = (events, nav) => {
         day: i - paddingDays,
       }).format("LL")
 
-      // const dayEvents =
-      //   groupedEvents[
-      //     moment({
-      //       year: year,
-      //       month: month,
-      //       day: i - paddingDays,
-      //     }).format("YYYY-MM-DD")
-      //   ] || []
-      // const numEvents = dayEvents.length
-
-      const eventC = eventForDate(dayString);
+      const eventC = eventForDate(dayString)
 
       if (i > paddingDays) {
         daysArr.push({
           value: i - paddingDays,
           event: eventForDate(dayString),
           eventColor: eventC ? eventC.selectedColor : "",
-          // eventNum: numEvents,
           isCurrentDay:
             moment().isSame(
               moment({ year: year, month: month, day: i - paddingDays }),
@@ -80,10 +67,13 @@ export const useDate = (events, nav) => {
           date: dayString,
         })
       } else {
+        const prevMonth = moment(firstDayOfMonth).subtract(1, "months")
+        const lastDayOfPrevMonth = prevMonth.endOf("month").date()
+        const dayOfPrevMonth = lastDayOfPrevMonth - (paddingDays - i)
+
         daysArr.push({
-          value: "padding",
+          value: dayOfPrevMonth,
           event: null,
-          // eventNum: "",
           isCurrentDay: false,
           availableDays: false,
           date: "",
