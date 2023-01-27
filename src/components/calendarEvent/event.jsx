@@ -25,7 +25,7 @@ const EventsList = () => {
       : eventColor === "red"
       ? "bg-red-500/25 hover:bg-red-500/40 text-red-700"
       : ""
-      
+
   return (
     <div className="bg-white shadow-lg border rounded-md">
       <div className="px-5 py-3 text-gray-800 font-semibold text-lg border-b rounded-t-md">
@@ -35,7 +35,7 @@ const EventsList = () => {
         {events.map((event, index) => (
           <div
             key={index}
-            className={`px-4 py-2 grid grid-cols-3 gap-3 text-sm rounded-md cursor-pointer ruonded-md ${eventColorClass(
+            className={`px-4 py-2 grid grid-cols-3 gap-3 capitalize text-sm rounded-md cursor-pointer ruonded-md ${eventColorClass(
               event.selectedColor
             )}`}>
             <div className="truncate col-span-1">{event.eventName}</div>
