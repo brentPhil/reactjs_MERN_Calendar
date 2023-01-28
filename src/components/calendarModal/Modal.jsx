@@ -81,7 +81,7 @@ const Modal = ({ handleClose, dateSelected }) => {
     <Backdrop onClick={handleClose}>
       <motion.div
         onClick={(e) => e.stopPropagation()}
-        className="min-w-[350px] max-w-[400px] shadow-lg w-4/5 sm:w-2/4 md:w-96 bg-white rounded-md min-h-[300px]"
+        className="min-w-[350px] max-w-[400px] mx-1 shadow-lg w-4/5 sm:w-2/4 md:w-96 bg-white rounded-md min-h-[300px]"
         variants={dropIn}
         initial="hidden"
         animate="visible"
