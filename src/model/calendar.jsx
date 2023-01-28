@@ -1,7 +1,7 @@
 import moment from "moment/moment"
 import React, { useEffect, useState } from "react"
 import Modal from "../components/calendarModal/Modal"
-import { AnimatePresence } from "framer-motion"
+import { AnimatePresence, motion } from "framer-motion"
 import Day from "../components/calendar/day"
 import HeaderCalendar from "../components/calendar/header"
 import { useDate } from "../components/calendar/useDate"
@@ -55,21 +55,33 @@ const Calendar = () => {
             <div className={days_class}>Fri</div>
             <div className={days_class}>Sat</div>
           </div>
-
-          <div className="grid grid-cols-7 gap-3 pt-3">
-            {days.map((d, index) => (
-              <Day
-                key={index}
-                day={d}
-                onClick={() => {
-                  if (moment(d.date).isAfter(moment())) {
-                    modalOpen ? closeModal() : openModal()
-                    setSelectedDate(d.date)
-                  }
-                }}
-              />
-            ))}
-          </div>
+          <AnimatePresence
+            initial={false}
+            mode="wait"
+            onExitComplete={() => null}>
+            {days && (
+              <motion.div
+                initial={{ x: "-1080px", opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ duration: 0.2 }}
+                exit={{ x: "-1080px", opacity: 0 }}>
+                <div className="grid grid-cols-7 gap-3 pt-3">
+                  {days.map((d, index) => (
+                    <Day
+                      key={index}
+                      day={d}
+                      onClick={() => {
+                        if (moment(d.date).isAfter(moment())) {
+                          modalOpen ? closeModal() : openModal()
+                          setSelectedDate(d.date)
+                        }
+                      }}
+                    />
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
       <div className="mt-5 md:m-0 bg-white h-fit shadow-lg border min-w-[300px] rounded-md">

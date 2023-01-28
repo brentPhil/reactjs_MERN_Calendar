@@ -7,7 +7,6 @@ import { BiTime } from "react-icons/bi"
 
 const EventsList = ({ events, setEvents }) => {
   const [selectedId, setSelectedId] = useState(null)
-  console.log(events)
   const eventColorClass = (eventColor) =>
     eventColor === "blue"
       ? "bg-blue-500/70"
@@ -82,7 +81,7 @@ const EventsList = ({ events, setEvents }) => {
                 <motion.div
                   initial={{ height: 0, opacity: 0 }}
                   animate={{ height: "auto", opacity: 1 }}
-                  transition={{ duration: 0.2 }}
+                  transition={{ duration: 0.5, type: "spring", bounce: 0.3, opacity: { delay: 0.025} }}
                   layoutId={selectedId}
                   className={`border-t-4 flex rounded-b-md justify-between shadow-md text-sm capitalize ${border(
                     selectedId.selectedColor
