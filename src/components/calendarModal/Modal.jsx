@@ -6,6 +6,7 @@ import moment from "moment/moment"
 import ColorPicker from "../modalComp/colorPicker"
 import TimePicker from "../modalComp/timePicker"
 
+
 const dropIn = {
   hidden: {
     y: "-100vh",
@@ -30,47 +31,34 @@ const dropIn = {
 const Modal = ({ handleClose, dateSelected, setEvents, events }) => {
   const [selectedColor, setSelectedColor] = useState("red")
   const [eventName, setEventName] = useState("")
-  const [startTime, setStartTime] = useState("")
-  const [endTime, setEndTime] = useState("")
+  const [startTime, setStartTime] = useState(moment().format("HH:mm"))
+  const [endTime, setEndTime] = useState(moment().format("HH:mm"))
   const [eventDescription, setEventDescription] = useState("")
 
   const remaining = 50 - eventName.length
 
   const handleSubmit = (e) => {
     e.preventDefault()
+
+    const formatStart = moment(startTime, "HH:mm").format("hh:mm A")
+    const formatEnd = moment(endTime, "HH:mm").format("hh:mm A")
+    
+    const newId = Date.now() + Math.floor(Math.random() * 10000)
     const newEvent = {
+      newId,
       selectedColor,
       eventName,
       dateSelected,
-      startTime,
-      endTime,
+      formatStart,
+      formatEnd,
       eventDescription,
     }
     setEvents([...events, newEvent])
     localStorage.setItem("events", JSON.stringify([...events, newEvent]))
     handleClose()
   }
-  // const handleUpdate = (e, index) => {
-  //   e.preventDefault()
-  //   const updatedEvents = [...events]
-  //   updatedEvents[index] = {
-  //     selectedColor,
-  //     eventName,
-  //     eventDate,
-  //     startTime,
-  //     endTime,
-  //     eventDescription,
-  //   }
-  //   setEvents(updatedEvents)
-  //   localStorage.setItem("events", JSON.stringify(updatedEvents))
-  // }
 
-  // const handleDelete = (index) => {
-  //   const updatedEvents = [...events]
-  //   updatedEvents.splice(index, 1)
-  //   setEvents(updatedEvents)
-  //   localStorage.setItem("events", JSON.stringify(updatedEvents))
-  // }
+console.log(events)
 
   return (
     <Backdrop onClick={handleClose}>
@@ -95,6 +83,7 @@ const Modal = ({ handleClose, dateSelected, setEvents, events }) => {
 
             <div className="relative">
               <input
+              required
                 type="text"
                 className="w-full border-b-2 outline-none py-2 bg-inherit"
                 maxLength={50}
