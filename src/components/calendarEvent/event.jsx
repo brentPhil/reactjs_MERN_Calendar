@@ -35,15 +35,19 @@ const EventsList = () => {
         {events.map((event, index) => (
           <div
             key={index}
-            className={`p-2 grid grid-cols-6 gap-3 font-semibold text-slate-600 hover:text-slate-800 bg-slate-100 hover:bg-slate-200 capitalize text-sm rounded-md cursor-pointer ruonded-md`}>
+            className={`p-2 grid grid-cols-8 gap-3 font-semibold text-slate-600 hover:text-slate-800 border bg-slate-50 hover:bg-slate-100 capitalize text-sm rounded-md cursor-pointer ruonded-md`}>
             <div className="col-span-1 flex items-center justify-center">
               <div
                 className={`p-2 w-fit rounded-full ${eventColorClass(
                   event.selectedColor
                 )}`}></div>
             </div>
-            <div className="truncate col-span-2">{event.eventName}</div>
-            <div className="truncate col-span-3">{event.dateSelected}</div>
+            <div className="truncate col-span-3 px-2 border-l">
+              {event.eventName}
+            </div>
+            <div className="truncate col-span-4 px-2 border-l">
+              {event.dateSelected}
+            </div>
           </div>
         ))}
       </div>
