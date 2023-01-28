@@ -7,7 +7,7 @@ import HeaderCalendar from "../components/calendar/header"
 import { useDate } from "../components/calendar/useDate"
 import EventsList from "../components/calendarEvent/event"
 
-const days_class = `text-center py-2 px-3 bg-slate-200 text-gray-800 font-semibold rounded-[5px]`
+const days_class = `text-center text-[12px] md:text-sm py-2 px-1 sm:px-3 bg-slate-200 text-gray-800 font-semibold rounded-[5px]`
 
 const Calendar = () => {
   const [nav, setNav] = useState(0)
@@ -35,8 +35,8 @@ const Calendar = () => {
   const { days, dateDisplay } = useDate(events, nav)
 
   return (
-    <div className="px-20 h-screen py-10 font-mono grid lg:grid-cols-4 sm:grid-cols-1 gap-4">
-      <div className="relative bg-white col-span-3 border rounded-lg max-w-5xl sm:w-100 min-w-[400px] shadow-lg">
+    <div className="p-5 sm:p-10 md:p-5 min-h-screen lg:px-20 max-w-7xl m-auto grid grid-cols-1 gap-y-5 md:grid-cols-3 md:gap-5">
+      <div className="relative bg-white col-span-2 border rounded-lg sm:w-100 min-w-[400px] shadow-lg">
         <HeaderCalendar
           dateDisplay={dateDisplay}
           onNext={() => setNav(nav + 1)}
@@ -69,7 +69,9 @@ const Calendar = () => {
           </div>
         </div>
       </div>
-      <EventsList />
+      <div className="col-span-1 bg-white shadow-lg border sm:min-w-full min-w-[400px] rounded-md">
+        <EventsList />
+      </div>
 
       <AnimatePresence initial={false} mode="wait" onExitComplete={() => null}>
         {modalOpen && (

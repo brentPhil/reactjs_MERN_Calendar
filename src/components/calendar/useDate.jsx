@@ -63,7 +63,8 @@ export const useDate = (events, nav) => {
               moment({ year: year, month: month, day: i - paddingDays }),
               "day"
             ) && nav === 0,
-          availableDays: moment(dayString).isAfter(moment()),
+          availableDays:
+            moment(dayString).isAfter(moment()) && !eventForDate(dayString),
           date: dayString,
         })
       } else {

@@ -2,37 +2,41 @@ import React from "react"
 
 export const Day = ({ day, onClick }) => {
   const className = `text-start sm:h-20 py-2 px-3 text-[.8rem] rounded-[5px]  ${
-    day.event === null && "bg-slate-100 text-slate-500"
+    day.event === null && "bg-slate-50 text-slate-500"
   } 
   ${
     day.isCurrentDay
       ? "bg-red-500 !text-white hover:bg-red-400"
-      : "bg-slate-200"
+      : "bg-slate-100"
   }
   ${day.availableDays && "hover:bg-blue-100 bg-blue-100 cursor-pointer"}`
 
 
   const eventColorClass =
     day.eventColor === "blue"
-      ? "bg-blue-500/25 text-blue-700"
+      ? "bg-blue-500/70 sm:bg-blue-500/30 text-blue-700"
       : day.eventColor === "orange"
-      ? "bg-orange-500/25 text-orange-700"
+      ? "bg-orange-500/70 sm:bg-orange-500/30 text-orange-700"
       : day.eventColor === "green"
-      ? "bg-green-500/25 text-green-700"
+      ? "bg-green-500/70 sm:bg-green-500/30 text-green-700"
       : day.eventColor === "yellow"
-      ? "bg-yellow-500/25 text-yellow-700"
+      ? "bg-yellow-500/70 sm:bg-yellow-500/30 text-yellow-700"
       : day.eventColor === "violet"
-      ? "bg-violet-500/25 text-violet-700"
+      ? "bg-violet-500/70 sm:bg-violet-500/30 text-violet-700"
       : day.eventColor === "red"
-      ? "bg-red-500/25 text-red-700"
+      ? "bg-red-500/70  sm:bg-red-500/30 text-red-700"
       : ""
-  const eventClass = `text-[12px] mt-1 truncate px-2 py-1 rounded-md capitalize ${eventColorClass}`
+  const eventClass = `text-[12px] mt-1 px-2 py-[2px] rounded-md capitalize ${eventColorClass}`
 
   return (
     <div onClick={onClick} className={className}>
-      {day.value}
+      <div className="text-center sm:text-start">{day.value}</div>
 
-      {day.event && <div className={eventClass}>{day.event.eventName}</div>}
+      {day.event && (
+        <div className={eventClass}>
+          <div className="hidden sm:block truncate">{day.event.eventName}</div>
+        </div>
+      )}
     </div>
   )
 }

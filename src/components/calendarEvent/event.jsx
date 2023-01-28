@@ -13,33 +13,39 @@ const EventsList = () => {
 
   const eventColorClass = (eventColor) =>
     eventColor === "blue"
-      ? "bg-blue-500/25 hover:bg-blue-500/40 text-blue-700"
+      ? "bg-blue-500/60"
       : eventColor === "orange"
-      ? "bg-orange-500/25 hover:bg-orange-500/40 text-orange-700"
+      ? "bg-orange-500/60"
       : eventColor === "green"
-      ? "bg-green-500/25 hover:bg-green-500/40 text-green-700"
+      ? "bg-green-500/60"
       : eventColor === "yellow"
-      ? "bg-yellow-500/25 hover:bg-yellow-500/40 text-yellow-700"
+      ? "bg-yellow-500/60"
       : eventColor === "violet"
-      ? "bg-violet-500/25 hover:bg-violet-500/40 text-violet-700"
+      ? "bg-violet-500/60"
       : eventColor === "red"
-      ? "bg-red-500/25 hover:bg-red-500/40 text-red-700"
+      ? "bg-red-500/60"
       : ""
 
   return (
-    <div className="bg-white shadow-lg border rounded-md">
+    <div>
       <div className="px-5 py-3 text-gray-800 font-semibold text-lg border-b rounded-t-md">
         Events List
       </div>
-      <div className="p-5 grid gap-2">
+      <div className="p-3 grid gap-2">
         {events.map((event, index) => (
           <div
             key={index}
-            className={`px-4 py-2 grid grid-cols-3 gap-3 capitalize text-sm rounded-md cursor-pointer ruonded-md ${eventColorClass(
-              event.selectedColor
-            )}`}>
-            <div className="truncate col-span-1">{event.eventName}</div>
-            <div className="truncate col-span-2">{event.dateSelected}</div>
+            className={`p-2 grid grid-cols-6 gap-3 font-semibold text-slate-600 hover:text-slate-800 bg-slate-100 hover:bg-slate-200 capitalize text-sm rounded-md cursor-pointer ruonded-md`}>
+            <div className="col-span-1 flex items-center justify-center">
+              <div
+                className={`p-2 w-fit rounded-full ${eventColorClass(
+                  event.selectedColor
+                )}`}></div>
+            </div>
+            <div className="truncate col-span-5">
+              {event.eventName}
+              <div className="truncate text-[12px]">{event.dateSelected}</div>
+            </div>
           </div>
         ))}
       </div>
