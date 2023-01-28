@@ -35,7 +35,7 @@ const Calendar = () => {
   const { days, dateDisplay } = useDate(events, nav)
 
   return (
-    <div className="p-5 sm:p-10 md:p-5 min-h-screen lg:px-20 max-w-7xl m-auto grid grid-cols-1 gap-y-5 md:grid-cols-3 md:gap-5">
+    <div className="p-5 sm:p-10 md:p-5 min-h-screen lg:px-20 max-w-7xl m-auto grid grid-cols-1 gap-y-1 sm:gap-y-5 md:grid-cols-3 md:gap-5">
       <div className="relative bg-white col-span-2 border rounded-lg sm:w-100 min-w-[300px] h-fit shadow-lg">
         <HeaderCalendar
           dateDisplay={dateDisplay}
