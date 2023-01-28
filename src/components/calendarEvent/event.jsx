@@ -1,15 +1,7 @@
 import moment from "moment/moment"
 import { useEffect, useState } from "react"
 
-const EventsList = () => {
-  const [events, setEvents] = useState([])
-
-  useEffect(() => {
-    const storedEvents = localStorage.getItem("events")
-    if (storedEvents) {
-      setEvents(JSON.parse(storedEvents))
-    }
-  }, [])
+const EventsList = ({ events }) => {
 
   const eventColorClass = (eventColor) =>
     eventColor === "blue"

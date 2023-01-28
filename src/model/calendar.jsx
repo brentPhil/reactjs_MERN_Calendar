@@ -13,8 +13,11 @@ const Calendar = () => {
   const [nav, setNav] = useState(0)
   const [modalOpen, setModalOpen] = useState(false)
   const [selectedDate, setSelectedDate] = useState(moment())
-  const [events, setEvents] = useState([])
-
+  const [events, setEvents] = useState(
+    localStorage.getItem("events")
+      ? JSON.parse(localStorage.getItem("events"))
+      : []
+  )
   useEffect(() => {
     // Get the events data from local storage
     const eventsData = JSON.parse(localStorage.getItem("events"))
@@ -70,7 +73,7 @@ const Calendar = () => {
         </div>
       </div>
       <div className="col-span-1 mt-5 sm:m-0 bg-white h-fit shadow-lg border sm:min-w-full min-w-[300px] rounded-md">
-        <EventsList />
+        <EventsList events={events} />
       </div>
 
       <AnimatePresence initial={false} mode="wait" onExitComplete={() => null}>
@@ -79,6 +82,8 @@ const Calendar = () => {
             modalOpen={modalOpen}
             handleClose={closeModal}
             dateSelected={selectedDate}
+            setEvents={setEvents}
+            events={events}
           />
         )}
       </AnimatePresence>

@@ -27,17 +27,12 @@ const dropIn = {
   },
 }
 
-const Modal = ({ handleClose, dateSelected }) => {
+const Modal = ({ handleClose, dateSelected, setEvents, events }) => {
   const [selectedColor, setSelectedColor] = useState("red")
   const [eventName, setEventName] = useState("")
   const [startTime, setStartTime] = useState("")
   const [endTime, setEndTime] = useState("")
   const [eventDescription, setEventDescription] = useState("")
-  const [events, setEvents] = useState(
-    localStorage.getItem("events")
-      ? JSON.parse(localStorage.getItem("events"))
-      : []
-  )
 
   const remaining = 50 - eventName.length
 
