@@ -13,25 +13,25 @@ const EventsList = () => {
 
   const eventColorClass = (eventColor) =>
     eventColor === "blue"
-      ? "bg-blue-500/60"
+      ? "bg-blue-500/70"
       : eventColor === "orange"
-      ? "bg-orange-500/60"
+      ? "bg-orange-500/70"
       : eventColor === "green"
-      ? "bg-green-500/60"
+      ? "bg-green-500/70"
       : eventColor === "yellow"
-      ? "bg-yellow-500/60"
+      ? "bg-yellow-500/70"
       : eventColor === "violet"
-      ? "bg-violet-500/60"
+      ? "bg-violet-500/70"
       : eventColor === "red"
-      ? "bg-red-500/60"
+      ? "bg-red-500/70"
       : ""
 
   return (
     <div>
-      <div className="px-5 py-3 text-gray-800 font-semibold text-lg border-b rounded-t-md">
+      <div className="lg:px-5 p-3 text-gray-800 font-semibold text-lg border-b rounded-t-md">
         Events List
       </div>
-      <div className="p-3 grid gap-2">
+      <div className="lg:p-5 p-3 grid gap-2">
         {events.map((event, index) => (
           <div
             key={index}
@@ -42,10 +42,8 @@ const EventsList = () => {
                   event.selectedColor
                 )}`}></div>
             </div>
-            <div className="truncate col-span-5">
-              {event.eventName}
-              <div className="truncate text-[12px]">{event.dateSelected}</div>
-            </div>
+            <div className="truncate col-span-2">{event.eventName}</div>
+            <div className="truncate col-span-3">{event.dateSelected}</div>
           </div>
         ))}
       </div>

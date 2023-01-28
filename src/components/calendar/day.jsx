@@ -1,7 +1,7 @@
 import React from "react"
 
 export const Day = ({ day, onClick }) => {
-  const className = `text-start sm:h-20 py-2 px-3 text-[.8rem] rounded-[5px]  ${
+  const className = `text-start sm:h-20 p-2 sm:px-3 sm:text-[.8rem] lg:max-h-48 max-h-16 rounded-[5px]  ${
     day.event === null && "bg-slate-50 text-slate-500"
   } 
   ${
@@ -26,11 +26,11 @@ export const Day = ({ day, onClick }) => {
       : day.eventColor === "red"
       ? "bg-red-500/70  sm:bg-red-500/30 text-red-700"
       : ""
-  const eventClass = `text-[12px] mt-1 px-2 py-[2px] rounded-md capitalize ${eventColorClass}`
+  const eventClass = `text-[12px] lg:mt-3 mt-1 px-2 py-[2px] rounded-md capitalize ${eventColorClass}`
 
   return (
     <div onClick={onClick} className={className}>
-      <div className="text-center sm:text-start">{day.value}</div>
+      <div className="text-center sm:text-start text-[12px]">{day.value}</div>
 
       {day.event && (
         <div className={eventClass}>
