@@ -106,7 +106,7 @@ const EventsList = ({ events, setEvents }) => {
                           </div>
                         </div>
                       </div>
-                      <div className="truncate text-[12px] px-2">
+                      <div className="text-[12px] px-2">
                         {selectedId.eventDescription}
                       </div>
                     </div>
