@@ -3,7 +3,7 @@ import { useState } from "react"
 import { MdDeleteForever } from "react-icons/md"
 import { FcCalendar } from "react-icons/fc"
 import { BiTime } from "react-icons/bi"
-
+import moment from "moment/moment"
 
 const EventsList = ({ events, setEvents }) => {
   const [selectedId, setSelectedId] = useState(null)
@@ -43,17 +43,34 @@ const EventsList = ({ events, setEvents }) => {
     localStorage.setItem("events", JSON.stringify(updatedEvents))
   }
 
+   const sortEvents = (sortBy) => {
+     const sortedEvents = [...events].sort((a, b) => {
+       switch (sortBy) {
+         case "date":
+           return moment(a.dateSelected) - moment(b.dateSelected)
+           return 0
+       }
+     })
+
+     return sortedEvents
+   }
+
+   const sortedEvents = sortEvents("date")
+
+  console.log(sortedEvents)
+
+
   return (
     <div>
       <div className="lg:px-5 p-3 text-gray-800 font-semibold text-lg border-b rounded-t-md">
-        Events List
+        UPCOMMING
       </div>
       <div className="lg:p-5 p-3 grid gap-2">
-        {events.map((event, index) => (
+        {sortedEvents && sortedEvents.map((event) => (
           <>
             <motion.div
               layoutId={event.newId}
-              key={index}
+              key={event.newId}
               onClick={() => {
                 selectedId
                   ? selectedId.newId !== event.newId
@@ -61,18 +78,20 @@ const EventsList = ({ events, setEvents }) => {
                     : setSelectedId(null)
                   : setSelectedId(event)
               }}
-              className={`p-2 grid grid-cols-8 gap-3 font-semibold text-slate-600 hover:text-slate-800 border bg-slate-50 hover:bg-slate-100 capitalize text-sm rounded-md cursor-pointer ruonded-md`}>
+              className={`p-2 grid grid-cols-8 font-semibold text-slate-600 hover:text-slate-800 border bg-white hover:bg-slate-100 capitalize text-sm rounded-md cursor-pointer ruonded-md`}>
               <div className="col-span-1 flex items-center justify-center">
                 <div
-                  className={`p-2 w-fit rounded-full ${eventColorClass(
+                  className={`w-[25px] h-[25px] flex justify-center items-center rounded-full text-white ${eventColorClass(
                     event.selectedColor
-                  )}`}></div>
+                  )}`}>
+                  {moment(event.dateSelected).format("D")}
+                </div>
               </div>
-              <div className="truncate col-span-3 px-2 border-l">
+              <div className="truncate flex pr-1 items-center col-span-3 px-2 border-l">
+                {moment(event.dateSelected).format("MMMM YYYY")}
+              </div>
+              <div className="truncate flex pr-1 items-center col-span-4 px-2 border-l">
                 {event.eventName}
-              </div>
-              <div className="truncate col-span-4 px-2 border-l">
-                {event.dateSelected}
               </div>
             </motion.div>
 
@@ -81,7 +100,12 @@ const EventsList = ({ events, setEvents }) => {
                 <motion.div
                   initial={{ height: 0, opacity: 0 }}
                   animate={{ height: "auto", opacity: 1 }}
-                  transition={{ duration: 0.5, type: "spring", bounce: 0.3, opacity: { delay: 0.025} }}
+                  transition={{
+                    duration: 0.5,
+                    type: "spring",
+                    bounce: 0.3,
+                    opacity: { delay: 0.025 },
+                  }}
                   layoutId={selectedId}
                   className={`border-t-4 flex rounded-b-md justify-between shadow-md text-sm capitalize ${border(
                     selectedId.selectedColor

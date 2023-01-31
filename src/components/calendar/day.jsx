@@ -10,7 +10,7 @@ export const Day = ({ day, onClick }) => {
       ? "bg-red-500 !text-white hover:bg-red-400"
       : "bg-slate-100"
   }
-  ${day.availableDays && "hover:bg-blue-200 bg-blue-100 cursor-pointer"}`
+  ${day.availableDays && "hover:bg-blue-100 bg-blue-50 cursor-pointer"}`
 
   const eventColorClass =
     day.eventColor === "blue"

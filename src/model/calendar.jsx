@@ -39,7 +39,7 @@ const Calendar = () => {
 
   return (
     <div className="p-5 sm:p-10 md:p-5 min-h-screen lg:px-20 max-w-7xl m-auto md:grid md:grid-cols-3 md:gap-5">
-      <div className="relative bg-white col-span-2 border rounded-lg sm:w-100 min-w-[300px] h-fit shadow-lg">
+      <div className="relative bg-white col-span-2 border rounded-lg sm:w-100 min-w-[300px] h-fit shadow-md">
         <HeaderCalendar
           dateDisplay={dateDisplay}
           onNext={() => setNav(nav + 1)}
@@ -84,7 +84,7 @@ const Calendar = () => {
           </AnimatePresence>
         </div>
       </div>
-      <div className="mt-5 md:m-0 bg-white h-fit shadow-lg border min-w-[300px] rounded-md">
+      <div className="mt-5 md:m-0 bg-white h-fit shadow-md border min-w-[300px] rounded-md">
         <EventsList events={events} setEvents={setEvents} />
       </div>
 
