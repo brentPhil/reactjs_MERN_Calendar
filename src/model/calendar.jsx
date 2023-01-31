@@ -66,9 +66,9 @@ const Calendar = () => {
                 transition={{ duration: 0.2 }}
                 exit={{ x: "-1080px", opacity: 0 }}>
                 <div className="grid grid-cols-7 gap-3 pt-3">
-                  {days.map((d, index) => (
+                  {days.map((d) => (
                     <Day
-                      key={index}
+                      key={d.newId}
                       day={d}
                       onClick={() => {
                         if (moment(d.date).isAfter(moment())) {
